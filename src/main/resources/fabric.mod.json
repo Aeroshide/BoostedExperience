@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "boostedexperience",
+  "version": "${version}",
+
+  "name": "BoostedExperience",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "Apache-2.0",
+  "icon": "assets/boostedexperience/icon.png",
+
+  "environment": "*",
+  "entrypoints": {},
+
+      "mixins": [
+        "boostedexperience.mixins.json"
+      ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+        "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
