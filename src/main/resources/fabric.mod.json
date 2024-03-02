@@ -2,25 +2,26 @@
   "schemaVersion": 1,
   "id": "boostedexperience",
   "version": "${version}",
-
   "name": "BoostedExperience",
-  "description": "",
-  "authors": [],
-  "contact": {},
-
+  "description": "to all of my lazy fella out there, your welcome!",
+  "authors": ["Aeroshide"],
+  "contact": {
+    "repo": "https://github.com/Aeroshide/BoostedExperience"
+  },
   "license": "Apache-2.0",
   "icon": "assets/boostedexperience/icon.png",
-
   "environment": "*",
-  "entrypoints": {},
-
-      "mixins": [
-        "boostedexperience.mixins.json"
-      ],
-
+  "entrypoints": {
+    "main": [
+      "com.aeroshide.boostedexperience.BoostedExperience"
+    ]
+  },
+  "mixins": [
+    "boostedexperience.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-        "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "rose_bush": ">=1.0",
+    "minecraft": ">=1.14"
   }
 }
