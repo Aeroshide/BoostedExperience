@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id 'fabric-loom' version '1.6-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -7,6 +7,11 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"
+    }
+
     exclusiveContent {
         forRepository {
             maven {
@@ -25,6 +30,8 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
     modImplementation "maven.modrinth:rose-bush:${project.roselib_version}"
 }

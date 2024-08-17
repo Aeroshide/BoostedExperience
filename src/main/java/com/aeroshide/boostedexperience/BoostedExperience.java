@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 public class BoostedExperience implements ModInitializer {
     public static final Logger LOG = LogManager.getLogger("BoostedExperience");
     public static int xpMultiplier = 5;
-    public Config config = Config.getInstance("config/BoostedExperience.json");
+    public static Config config = Config.getInstance("config/BoostedExperience.json");
     @Override
     public void onInitialize() {
 
