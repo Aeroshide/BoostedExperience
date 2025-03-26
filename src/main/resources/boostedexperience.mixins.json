@@ -4,7 +4,6 @@
   "package": "com.aeroshide.boostedexperience.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "ExperienceOrbEntityAccessor",
     "ExperienceOrbEntityMixin"
   ],
   "client": [

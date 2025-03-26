@@ -7,14 +7,14 @@ import org.apache.logging.log4j.Logger;
 
 public class BoostedExperience implements ModInitializer {
     public static final Logger LOG = LogManager.getLogger("BoostedExperience");
-    public static int xpMultiplier = 5;
+    public static double xpMultiplier = 5d;
     public static Config config = new Config("config/BoostedExperience.json");
     @Override
     public void onInitialize() {
 
         if (config.getOption("multiplier") == null)
         {
-            config.setOption("multiplier", 5.0);
+            config.setOption("multiplier", 5.0d);
         }
 
         xpMultiplier = ((Double) config.getOption("multiplier")).intValue();
