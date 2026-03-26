@@ -2,55 +2,65 @@ package com.aeroshide.boostedexperience.config.screen;
 
 import com.aeroshide.boostedexperience.BoostedExperience;
 import com.aeroshide.rose_bush.gui.DoubleFieldWidget;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
-import com.aeroshide.rose_bush.gui.IntFieldWidget;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import org.jspecify.annotations.NonNull;
+
+import java.io.IOException;
 
 public class SettingsGUI extends Screen {
 
+    public static final Component TITLE = Component.translatable("boostedexperience.configScreen");
+
     private final Screen parent;
     private DoubleFieldWidget xpMultiplierField;
-    private ButtonWidget resetXPField;
+    private Button resetXPField;
 
-    private static final Text XP_MULTIPLIER_TEXT = Text.translatable("boostedexperience.xpMultiplier");
+    private static final Component XP_MULTIPLIER_TEXT = Component.translatable("boostedexperience.xpMultiplier");
 
     public SettingsGUI(Screen parent) {
-        super(Text.translatable("boostedexperience.configScreen"));
+        super(TITLE);
         this.parent = parent;
     }
 
     @Override
     public void init() {
-        this.xpMultiplierField = new DoubleFieldWidget(this.textRenderer, this.width / 2 - 100, 44, 200, 20, Text.translatable("boostedexperience.xpMultiplier"));
+
+        this.xpMultiplierField = new DoubleFieldWidget(this.font, this.width / 2 - 100, 44, 200, 20, Component.translatable("boostedexperience.xpMultiplier"));
         this.xpMultiplierField.setMaxLength(4);
-        this.xpMultiplierField.setText(String.valueOf(BoostedExperience.config.getOption("multiplier"))); // Default value, adjust as needed
+        this.xpMultiplierField.setValue(String.valueOf(BoostedExperience.config.getOption("multiplier"))); // Default value, adjust as needed
 
-        this.resetXPField = this.addDrawableChild(ButtonWidget.builder(Text.literal("R"), (button) -> {
-            xpMultiplierField.setText("5.0"); // Reset to default value
-        }).dimensions(this.xpMultiplierField.getX() + 205, this.xpMultiplierField.getY(), 20, 20).build());
+        this.resetXPField = this.addRenderableWidget(Button.builder(Component.literal("R"), (button) -> {
+            xpMultiplierField.setValue("5.0"); // Reset to default value
+        }).bounds(this.xpMultiplierField.getX() + 205, this.xpMultiplierField.getY(), 20, 20).build());
 
-        ButtonWidget discardButton = this.addDrawableChild(ButtonWidget.builder(Text.translatable("boostedexperience.discard"), (button) -> {
-            client.setScreen(this.parent);
-        }).dimensions(this.width / 2 - 110, this.height / 2 + 90, 100, 20).build());
+        Button discardButton = this.addRenderableWidget(Button.builder(Component.translatable("boostedexperience.discard"), (button) -> {
+            minecraft.setScreen(this.parent);
+        }).bounds(this.width / 2 - 110, this.height / 2 + 90, 100, 20).build());
 
-        ButtonWidget acceptButton = this.addDrawableChild(ButtonWidget.builder(Text.translatable("boostedexperience.save"), (button) -> {
+        Button acceptButton = this.addRenderableWidget(Button.builder(Component.translatable("boostedexperience.save"), (button) -> {
             BoostedExperience.xpMultiplier = this.xpMultiplierField.getDouble();
-            BoostedExperience.config.setOption("multiplier", this.xpMultiplierField.getDouble());
-            client.setScreen(this.parent);
-        }).dimensions(this.width / 2 + 20, this.height / 2 + 90, 100, 20).build());
+            try {
+                BoostedExperience.config.setOption("multiplier", this.xpMultiplierField.getDouble());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            minecraft.setScreen(this.parent);
+        }).bounds(this.width / 2 + 20, this.height / 2 + 90, 100, 20).build());
 
         this.setInitialFocus(this.xpMultiplierField);
-        this.addSelectableChild(this.xpMultiplierField);
+
+        this.addRenderableWidget(this.xpMultiplierField);
     }
 
     @Override
-    public void render(final DrawContext context, final int mouseX, final int mouseY, final float delta) {
-        super.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 20, 16777215);
-        context.drawTextWithShadow(this.textRenderer, XP_MULTIPLIER_TEXT, this.width / 2 - 100, this.xpMultiplierField.getY() - 10, 10526880);
+    public void extractRenderState(final @NonNull GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float delta) {
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
 
-        this.xpMultiplierField.render(context, mouseX, mouseY, delta);
+        graphics.centeredText(this.font, this.title, this.width / 2, 20, 0xFFFFFFFF);
+
+        graphics.text(this.font, XP_MULTIPLIER_TEXT, this.width / 2 - 100, this.xpMultiplierField.getY() - 10, 0xFFA0A0A0);
     }
 }
